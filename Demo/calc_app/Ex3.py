@@ -1,9 +1,11 @@
+from typing import Any
+
 def main() -> None:
-    result = 0
-    history =[]
-    command_id = 1
+    result = 0.0
+    history: list[dict[str, Any]] =[]
+    command_id = 0
     while True:
-        command = input("Enter a command (add, subtract, multiply, divide, clear, exit, history, remove): ").strip().lower()
+        command = input("Enter a command (add, subtract, multiply, divide, clear, exit, history, remove): ")
 
         if command == "exit":
             print("Exiting program.")

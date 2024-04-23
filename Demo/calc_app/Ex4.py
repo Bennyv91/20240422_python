@@ -1,4 +1,4 @@
-def print_history(history) -> :
+def print_history(history):
     if not history:
         print("No history available.")
     else:
