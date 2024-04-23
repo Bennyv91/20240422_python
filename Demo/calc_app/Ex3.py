@@ -5,8 +5,8 @@ def main() -> None:
     history: list[dict[str, Any]] =[]
     command_id = 0
     while True:
-        command = input("Enter a command (add, subtract, multiply, divide, clear, exit, history, remove): ")
-
+#Commands (add, subtract, multiply, divide, clear, exit, history, remove)
+        command = input("Enter a command: ")
         if command == "exit":
             print("Exiting program.")
             break
@@ -19,7 +19,11 @@ def main() -> None:
                 print("No history")
             else:
                 for entry in history:
-                    print(f"ID: {entry['id']}, Command: {entry['command']}, Operand: {entry['operand']}")
+                    print(
+                            f"ID: {entry['id']}"
+                            f"Command: {entry['command']}"
+                            f"Operand: {entry['operand']}"
+                        )
         elif command == "remove":
             if not history:
                 print("No history")
@@ -27,7 +31,8 @@ def main() -> None:
                 try:
                     id_to_remove = int(input("Enter the ID of the history entry to remove: "))
                     history = [
-                        entry for entry in history if entry['id'] != id_to_remove]
+                        entry for entry in history if entry['id'] != id_to_remove
+                        ]
                     print("Entry removed.")
                 except ValueError:
                     print("Error: Invalid input for ID.")
