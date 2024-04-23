@@ -29,10 +29,12 @@ def main() -> None:
                 print("No history")
             else:
                 try:
-                    id_to_remove = int(input("Enter the ID of the history entry to remove: "))
+                    id_to_remove = int(
+                        input("Enter the ID of the entry to remove: ")
+                        )
                     history = [
-                        entry for entry in history if entry['id'] != id_to_remove
-                        ]
+                    entry for entry in history if entry['id'] != id_to_remove
+                    ]
                     print("Entry removed.")
                 except ValueError:
                     print("Error: Invalid input for ID.")
