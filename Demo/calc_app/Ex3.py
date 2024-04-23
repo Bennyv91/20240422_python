@@ -34,7 +34,7 @@ def main() -> None:
         elif command in ["add", "subtract", "multiply", "divide"]:
             try:
                 operand = float(input("Please enter an operand: "))
-                history.append({"id": command_id, "command": command, 
+                history.append({"id": command_id, "command": command,
                                 "operand": operand})
                 command_id += 1
 
@@ -54,6 +54,6 @@ def main() -> None:
                 print("Error: Invalid input for operand.")
         else:
             print("Error: Unknown command.")
-            
+
 if __name__ == "__main__":
     main()

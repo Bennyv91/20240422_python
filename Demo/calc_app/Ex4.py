@@ -1,3 +1,5 @@
+from typing import Any
+
 def print_history(history):
     if not history:
         print("No history available.")
@@ -34,7 +36,7 @@ def perform_operation(command, operand, result):
 
 def main() -> None:
     result = 0
-    history = []
+    history: list[dict[str, Any]] =[]
     command_id = 1
 
     while True:
