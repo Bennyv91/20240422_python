@@ -7,7 +7,7 @@ def main() -> None:
        if command == "exit":
            #break will end loop
             break
-       
+
        print (f"Received command: {command}")
 
 
