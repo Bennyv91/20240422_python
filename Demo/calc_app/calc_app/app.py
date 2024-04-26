@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from user_input import get_command, get_operand, get_entry_id
+from user_input import get_command
 from user_output import (
     HistoryConsoleReporter,
     HistoryFileReporter,
@@ -12,7 +12,8 @@ from calculator import calculator_result, calc_fns
 from history_obj import HistoryObj
 from history_dict import HistoryDict
 from history import History
-from history_storage import HistoryStorage
+from history_storage import get_history_storage
+from app_settings import AppSettings
 
 
 def create_history_factory(kind: str = "obj") -> History:
@@ -41,10 +42,9 @@ def parse_command(command: str) -> tuple[str, str | None]:
 
 
 class CalculatorTool:
-    def __init__(self, history: History):
+    def __init__(self, app_settings: AppSettings, history: History):
+        self.__app_settings = app_settings
         self.__history = history
-
-        self.__history_storage = HistoryStorage(self.__history)
 
     def display_result(self) -> None:
         try:
@@ -73,11 +73,14 @@ class CalculatorTool:
             print("Invalid division by zero")
 
     def run(self) -> None:
+        logging.log(logging.INFO, "app started")
         while True:
             try:
                 command_name, command_arg = parse_command(get_command())
 
-                with open("command-log.txt", "a") as command_log_file:
+                with open(
+                    self.__app_settings.command_log_file, "a"
+                ) as command_log_file:
                     command_log_file.write(
                         (
                             f"timestamp: {datetime.now().isoformat()}"
@@ -103,11 +106,15 @@ class CalculatorTool:
             elif command_name == "save":
                 if not command_arg:
                     command_arg = "history.json"
-                self.__history_storage.save_history(command_arg)
+                get_history_storage(command_arg, self.__history).save_history(
+                    command_arg
+                )
             elif command_name == "load":
                 if not command_arg:
                     command_arg = "history.json"
-                self.__history_storage.load_history(command_arg)
+                get_history_storage(command_arg, self.__history).load_history(
+                    command_arg
+                )
             elif command_name == "clear":
                 self.__history.clear_history_entries()
             elif command_name == "exit":
@@ -118,8 +125,15 @@ class CalculatorTool:
 
 
 def main() -> None:
+    # builder pattern which is being done with the chain pattern
+    app_settings = (
+        AppSettings()
+        .command_line_args()
+        .load_app_configuration()
+        .configure_logging()
+    )
     history = create_history_factory("obj")
-    calculator_tool = CalculatorTool(history)
+    calculator_tool = CalculatorTool(app_settings, history)
     calculator_tool.run()
 
 
